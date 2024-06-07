@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from .serializers import *
 from django.contrib.auth import authenticate,login
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import update_session_auth_hash
 
 class UserRegistration(APIView):
     """
@@ -55,3 +57,30 @@ class UserLogin(APIView):
         except Exception as e:
             return Response({'Error':str(e)}, status=status.HTTP_400_BAD_REQUEST)    
         
+
+
+class UserProfile(APIView):
+    """
+    API endpoint that allows users to get user profile.
+    """
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        serializer=UserProfileSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)   
+    
+
+class ChangePasswordView(APIView):
+    """
+    An endpoint for changing password.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request}) # passing requested user to sereializer so that validation logic can be handeled there
+
+        if serializer.is_valid():
+            serializer.save()
+            #update_session_auth_hash(request, request.user)  # Keeps the user logged in
+            return Response({"detail": "Password has been changed successfully."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

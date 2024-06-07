@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser
+from django.contrib.auth.password_validation import validate_password
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     '''
@@ -58,3 +59,37 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError({'Error':'Incorrect password!'})
         
         return data
+    
+class UserProfileSerializer(serializers.ModelSerializer):
+    '''
+    serializer for User profile
+    '''
+    class Meta:
+        model=CustomUser
+        fields=['id', 'name','email']     
+        
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True, write_only=True)
+    new_password = serializers.CharField(required=True, write_only=True)
+
+    def validate(self, data):
+        user = self.context['request'].user
+
+        # Validate the old password
+        if not user.check_password(data['old_password']):
+            raise serializers.ValidationError({"old_password": "Old password is not correct."})
+
+        #validate_password(data['new_password'], user=user)
+
+        # Ensure the new password is not the same as the old password
+        if data['old_password'] == data['new_password']:
+            raise serializers.ValidationError({"new_password": "The new password cannot be the same as the old password."})
+
+        return data
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+        return user
