@@ -126,7 +126,8 @@ AUTH_USER_MODEL='account.CustomUser'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    #'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)  # Used for remocing builtin Templates of RestFramework and show Json Response because in production JSON is used
     
 }
 

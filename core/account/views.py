@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate,login
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import update_session_auth_hash
+from account.renderers import UserRenderer
+
 
 class UserRegistration(APIView):
     """
@@ -63,6 +65,8 @@ class UserProfile(APIView):
     """
     API endpoint that allows users to get user profile.
     """
+    renderer_classes = [UserRenderer] # helpful in checking errors at frontend sides .use it  in every request/view
+
     permission_classes = [IsAuthenticated]
     def get(self, request):
         serializer=UserProfileSerializer(request.user)
