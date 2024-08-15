@@ -7,6 +7,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import { NotFound } from './Pages/NotFound';
 import { REFRESH_TOKEN,ACCESS_TOKEN } from './constants';
+import MainLayout from './MainLayout';
 
 
 function Logout() {
@@ -28,19 +29,21 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 {/* Wrap the Home route with ProtectedRoutes to require authentication */}
-                <Route
-                    path='/'
-                element={
-                    <ProtectedRoutes>
-                        <Home/>
-                    </ProtectedRoutes>
-                }
-                />
-                {/* Define public routes */}
-                <Route path='/login' element={<Login/>} />
-                <Route path='/register' element={<RegisterAndLogout/>} />
-                <Route path='*' element={<NotFound/>} />
-                {/* <Route path='/logout' element={<Logout/>} /> */}
+                <Route element={<MainLayout />}>
+                    <Route
+                        path='/'
+                    element={
+                        // <ProtectedRoutes>
+                            <Home/>
+                        // </ProtectedRoutes>
+                    }
+                    />
+                    {/* Define public routes */}
+                    <Route path='/login' element={<Login/>} />
+                    <Route path='/register' element={<RegisterAndLogout/>} />
+                    <Route path='*' element={<NotFound/>} />
+                    {/* <Route path='/logout' element={<Logout/>} /> */}
+                </Route>
             </Routes>
         </BrowserRouter>
     
