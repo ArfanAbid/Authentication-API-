@@ -5,6 +5,8 @@ class ChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatModel
         fields = '__all__' 
+        read_only_fields = ['user'] 
+
     def create(self, validated_data):
         user = self.context['request'].user
         # Create and return the new ChatModel instance
