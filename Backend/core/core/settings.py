@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 EXTERNAL_APPS = [
     'account',
+    'chatbot',
     
     'rest_framework',
     'rest_framework_simplejwt',
