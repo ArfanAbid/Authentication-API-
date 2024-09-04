@@ -1,6 +1,41 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 const Register = () => {
+  const baseUrl = import.meta.env.VITE_API_URL
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Validate password and confirm password already done in backend also :)
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (!termsAccepted) {
+      setError('You must accept the terms and conditions')
+      return
+    }
+
+    try { 
+      const response = await axios.post(`${baseUrl}/api/user/register/`, {
+        email,
+        name,
+        password,
+        confirmPassword,
+        tc:termsAccepted,
+      });
+      setSuccess(response.data.message);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  }
   return (
   <>
         <div className="p-5 mb-2">
@@ -12,10 +47,12 @@ const Register = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create an account
                 </h1>
-                <form className="space-y-4 md:space-y-6" action="#">
+                {error && <p className="text-red-500">{error}</p>}
+                {success && <p className="text-green-500">{success}</p>}
+                <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label
-                      for="email"
+                      htmlFor="email"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Your email
@@ -23,6 +60,8 @@ const Register = () => {
                     <input
                       type="email"
                       name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       id="email"
                       className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="name@company.com"
@@ -31,7 +70,7 @@ const Register = () => {
                   </div>
                   <div>
                     <label
-                      for="name"
+                      htmlFor="name"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Your Name
@@ -39,6 +78,8 @@ const Register = () => {
                     <input
                       type="text"
                       name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       id="name"
                       className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="johndoe"
@@ -47,7 +88,7 @@ const Register = () => {
                   </div>
                   <div>
                     <label
-                      for="password"
+                      htmlFor="password"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Password
@@ -55,6 +96,8 @@ const Register = () => {
                     <input
                       type="password"
                       name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       id="password"
                       placeholder="••••••••"
                       className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -63,14 +106,16 @@ const Register = () => {
                   </div>
                   <div>
                     <label
-                      for="confirm-password"
+                      htmlFor="confirm-password"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Confirm password
                     </label>
                     <input
-                      type="confirm-password"
+                      type="password"
                       name="confirm-password"
+                      value={confirmPassword} 
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       id="confirm-password"
                       placeholder="••••••••"
                       className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -85,11 +130,13 @@ const Register = () => {
                         type="checkbox"
                         className="focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 h-4 w-4 rounded border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                         required=""
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
                       />
                     </div>
                     <div className="ml-3 text-sm">
                       <label
-                        for="terms"
+                        htmlFor="terms"
                         className="font-light text-gray-500 dark:text-gray-300"
                       >
                         I accept the{" "}
