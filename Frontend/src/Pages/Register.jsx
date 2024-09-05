@@ -13,11 +13,8 @@ const Register = () => {
   const [success, setSuccess] = useState('')
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate password and confirm password already done in backend also :)
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
+    setError(''); // Clear previous errors
+    setSuccess(''); // Clear previous success messages
     if (!termsAccepted) {
       setError('You must accept the terms and conditions')
       return
@@ -30,10 +27,28 @@ const Register = () => {
         password,
         confirmPassword,
         tc:termsAccepted,
+      },{
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      setSuccess(response.data.message);
+      const data=response.data
+      setSuccess(data.message);
+      // Clear input fields
+      setEmail('');
+      setName('');
+      setPassword('');
+      setConfirmPassword('');
+      setTermsAccepted(false);
+      setError('');
     } catch (error) {
-      setError(error.response.data.message);
+      console.log(error.response.data.email);
+      if (error.response && error.response.data) {
+        setError(error.response.data.Error ||error.response.data.email||'Failed to register');
+      }else{
+        setError('An error occurred');
+      }
+      console.error(error);
     }
   }
   return (
@@ -170,6 +185,8 @@ const Register = () => {
           </div>
         </section>
       </div>
+      <br />
+      <br />
   </>
   )
 }

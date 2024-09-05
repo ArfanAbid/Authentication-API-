@@ -24,7 +24,7 @@ class UserRegistration(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
         except Exception as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)    
+            return Response({'Error':str(e)}, status=status.HTTP_400_BAD_REQUEST)    
 
 
 
