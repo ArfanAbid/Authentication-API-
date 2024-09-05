@@ -33,16 +33,21 @@ const App = () => {
                     <Route
                         path='/'
                     element={
-                        // <ProtectedRoutes>
+                        <ProtectedRoutes>
                             <Home/>
-                        // </ProtectedRoutes>
+                        </ProtectedRoutes>
                     }
                     />
                     {/* Define public routes */}
                     <Route path='/login' element={<Login/>} />
                     <Route path='/register' element={<RegisterAndLogout/>} />
                     <Route path='*' element={<NotFound/>} />
-                    {/* <Route path='/logout' element={<Logout/>} /> */}
+                    <Route path='/logout' element={
+                        <ProtectedRoutes>
+                            <Logout/>
+                        </ProtectedRoutes>
+                        } 
+                        /> 
                 </Route>
             </Routes>
         </BrowserRouter>

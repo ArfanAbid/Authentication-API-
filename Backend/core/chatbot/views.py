@@ -7,8 +7,10 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 import os
+from dotenv import load_dotenv
 from groq import Groq
 
+load_dotenv()
 # Create your views here.
 
 class ChatbotView(APIView):
