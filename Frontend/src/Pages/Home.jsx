@@ -4,6 +4,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { HiArrowCircleUp } from "react-icons/hi";
 import { FiSlack } from "react-icons/fi";
 import { BiLoaderCircle } from "react-icons/bi";
+import { SiSpinrilla } from "react-icons/si";
+
 
 const Home = () => {
   const [message, setMessage] = useState("");
@@ -56,6 +58,7 @@ const Home = () => {
   };
 
   return (
+    <>
     <div className="mb-10 p-6 w-auto max-w-screen-lg mx-auto">
       <div className="text-4xl font-bold text-center p-2 mb-8 text-gray-900 dark:text-white">
         Smart Customer Support System
@@ -63,6 +66,12 @@ const Home = () => {
       <div className="text-2xl font-bold text-center p-2 mb-8 text-gray-800 dark:text-gray-200">
         From idea to product
         <FiSlack size={26} className="inline-block mx-3 text-gray-600 dark:text-gray-400" />
+      </div>
+      <div>
+        <p className="text-gray-700 dark:text-gray-300 text-center font-mono ">
+          Create a New Thread 
+          <SiSpinrilla className="inline-block mx-3 text-gray-600 dark:text-gray-400 animate-spin"/>
+        </p>
       </div>
       {response && (
         <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-w-3xl mx-auto">
@@ -98,6 +107,10 @@ const Home = () => {
       )}
       {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
     </div>
+      <div className="mb-36">
+      
+      </div>
+    </>
   );
 };
 

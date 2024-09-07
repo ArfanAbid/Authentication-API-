@@ -5,7 +5,6 @@ import LogoutBtn from "./LogoutBtn";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.isAuthenticated);
-  console.log(authStatus);
   const user=useSelector((state) => state.auth.user);
   return (
     <>
