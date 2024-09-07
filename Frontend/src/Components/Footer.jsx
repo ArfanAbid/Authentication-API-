@@ -9,8 +9,8 @@ import {
 function Footer() {
   return (
     <div>
-      <footer class=" text-center dark: lg:text-left  ">
-        <div class="bg-black/5 p-2 text-center text-sm  dark:text-gray-500">
+      <footer className=" text-center dark: lg:text-left  ">
+        <div className="bg-black/5 p-2 text-center text-sm  dark:text-gray-500">
           <Link to="/">
             © 2024 Copyright{" "}
             <span className="hover:underline text-[#43ca9f]  ">

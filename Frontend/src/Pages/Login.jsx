@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 function Login() {
   const baseUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,10 +35,17 @@ function Login() {
       const data = response.data;
       // console.log(response);
       setSuccess(data.message);
+      
+      // Dispatch login action
+      dispatch(login({
+        access: data.access,
+        refresh: data.refresh,
+        user: email,
+      }));
 
-      // Set cookies
-      Cookies.set("access", data.access, { expires: 1, path: "/", secure: true, sameSite: 'Strict' });
-      Cookies.set("refresh", data.refresh, { expires: 1, path: "/", secure: true, sameSite: 'Strict' });
+      // //  This is done in the store/authSlice.js file. Redux Set cookies 
+      // Cookies.set("access", data.access, { expires: 1, path: "/", secure: true, sameSite: 'Strict' });
+      // Cookies.set("refresh", data.refresh, { expires: 1, path: "/", secure: true, sameSite: 'Strict' });
 
       // Clear input fields
       setEmail("");

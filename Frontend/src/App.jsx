@@ -8,20 +8,20 @@ import Register from './Pages/Register';
 import { NotFound } from './Pages/NotFound';
 import { REFRESH_TOKEN,ACCESS_TOKEN } from './constants';
 import MainLayout from './MainLayout';
+import Logout from './components/LogoutBtn';
 
+// function Logout() {
+//     Cookies.remove(ACCESS_TOKEN);
+//     Cookies.remove(REFRESH_TOKEN);
+//     return <Navigate to='/login' />
+// }
 
-function Logout() {
-    Cookies.remove(ACCESS_TOKEN);
-    Cookies.remove(REFRESH_TOKEN);
-    return <Navigate to='/login' />
-}
+// function RegisterAndLogout(){
+//     Cookies.remove(ACCESS_TOKEN);
+//     Cookies.remove(REFRESH_TOKEN);
+//     return <Register />
 
-function RegisterAndLogout(){
-    Cookies.remove(ACCESS_TOKEN);
-    Cookies.remove(REFRESH_TOKEN);
-    return <Register />
-
-}
+// }
 
 const App = () => {
   return (
@@ -40,7 +40,7 @@ const App = () => {
                     />
                     {/* Define public routes */}
                     <Route path='/login' element={<Login/>} />
-                    <Route path='/register' element={<RegisterAndLogout/>} />
+                    <Route path='/register' element={<Register/>} />
                     <Route path='*' element={<NotFound/>} />
                     <Route path='/logout' element={
                         <ProtectedRoutes>
