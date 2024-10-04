@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ACCESS_TOKEN } from "./constants";
+import { ACCESS_TOKEN } from "@/constants";
 
 // Create an Axios instance with a custom base URL
 const api=axios.create({

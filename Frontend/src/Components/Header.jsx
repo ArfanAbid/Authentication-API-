@@ -1,7 +1,7 @@
 import React from "react";
-import { ModeToggle } from "@/components/Mode-toggle";
+import { ModeToggle } from "@/components/Mode-toggle"; 
 import { useSelector } from "react-redux";
-import LogoutBtn from "./LogoutBtn";
+import LogoutBtn from "@/components/LogoutBtn"; 
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.isAuthenticated);

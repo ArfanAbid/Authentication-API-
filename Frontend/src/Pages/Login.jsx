@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import Cookies from "js-cookie";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login } from "../store/authSlice";
+import { login } from "@/store/authSlice";
 
 function Login() {
   const baseUrl = import.meta.env.VITE_API_URL;
